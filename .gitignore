@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Build output
+/dist/
+/build/
+/.next/
+/.out/
+/coverage/
+
+# Vite
+/.vite/
+
+# Logs
+logs/
+*.log
+
+# Env files
+.env
+.env.*.local
+
+# Editor
+.vscode/
+.idea/

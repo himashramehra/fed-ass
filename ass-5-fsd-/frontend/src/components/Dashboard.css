@@ -1,0 +1,118 @@
+/* Dashboard.css */
+
+/* General layout */
+.dashboard {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #fbe9e7);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+
+/* Tabs Navigation */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.tabs button {
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tabs button:hover {
+  background-color: #00796b;
+}
+
+.tabs button.active {
+  background-color: #ff7043;
+}
+
+/* Recipe List */
+.recipe-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+.recipe-item {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-item img {
+  width: 70px;
+  margin-bottom: 15px;
+}
+
+.recipe-item h3 {
+  color: #009688;
+  margin-bottom: 10px;
+}
+
+.recipe-item p {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Add Recipe Form */
+.recipe-form {
+  background-color: white;
+  padding: 25px;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-form input,
+.recipe-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.recipe-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.recipe-form button:hover {
+  background-color: #00796b;
+}
+
+/* Empty and loading messages */
+p {
+  text-align: center;
+  color: #666;
+  font-weight: 500;
+}
