@@ -1,10 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RecipeForm from "./RecipeForm";
 import RecipeList from "./RecipeList";
 import "./Dashboard.css";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("recipes");
+  const [recipes, setRecipes] = useState([]);
+
+  // Load recipes from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("recipes");
+      if (stored) {
+        setRecipes(JSON.parse(stored));
+      }
+    } catch (e) {
+      // ignore corrupt storage
+      setRecipes([]);
+    }
+  }, []);
+
+  // Persist to localStorage whenever recipes change
+  useEffect(() => {
+    localStorage.setItem("recipes", JSON.stringify(recipes));
+  }, [recipes]);
+
+  const addRecipe = (recipe) => {
+    const newRecipe = { id: crypto.randomUUID(), ...recipe };
+    setRecipes((prev) => [newRecipe, ...prev]);
+    setActiveTab("recipes");
+  };
+
+  const deleteRecipe = (id) => {
+    setRecipes((prev) => prev.filter((r) => r.id !== id));
+  };
 
   return (
     <div className="dashboard">
@@ -35,8 +64,10 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-content">
-        {activeTab === "recipes" && <RecipeList />}
-        {activeTab === "add" && <RecipeForm />}
+        {activeTab === "recipes" && (
+          <RecipeList recipes={recipes} onDelete={deleteRecipe} />
+        )}
+        {activeTab === "add" && <RecipeForm onAdd={addRecipe} />}
         {activeTab === "profile" && (
           <div className="profile-card">
             <img
@@ -44,8 +75,8 @@ const Dashboard = () => {
               alt="User"
             />
             <div>
-              <h3>Rishika Agarwal</h3>
-              <p>Email: rishika@example.com</p>
+              <h3> Gaurav Sunthwal</h3>
+              <p>Email: gaurav@example.com</p>
               <p>Joined: October 2025</p>
             </div>
           </div>

@@ -10,20 +10,16 @@ const tabs = [
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
   return (
-    <div className="w-64 bg-white shadow-lg flex flex-col">
-      <h2 className="text-2xl font-bold text-center py-6 border-b text-blue-600">User Dashboard</h2>
-      <nav className="flex flex-col p-4 space-y-2">
+    <div className="sidebar">
+      <h2 className="sidebar-title">User Dashboard</h2>
+      <nav className="nav">
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            className={`flex items-center space-x-3 p-3 rounded-md text-lg transition-all duration-200 ${
-              activeTab === tab.id
-                ? "bg-blue-500 text-white shadow-md"
-                : "text-gray-700 hover:bg-blue-100"
-            }`}
+            className={`nav-button${activeTab === tab.id ? " active" : ""}`}
             onClick={() => setActiveTab(tab.id)}
           >
-            <span className="text-xl">{tab.icon}</span>
+            <span className="nav-icon">{tab.icon}</span>
             <span>{tab.label}</span>
           </button>
         ))}

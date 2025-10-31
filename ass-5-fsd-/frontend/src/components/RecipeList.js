@@ -1,27 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import "./Dashboard.css"; // reuse styling
 
-const RecipeList = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/recipes")
-      .then((res) => {
-        setRecipes(res.data || []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching recipes:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return <p>Loading recipes...</p>;
-  }
+const RecipeList = ({ recipes = [], onDelete }) => {
 
   if (!recipes.length) {
     return <p>No recipes yet — add one using the “Add Recipe” tab!</p>;
@@ -30,7 +10,7 @@ const RecipeList = () => {
   return (
     <div className="recipe-list">
       {recipes.map((recipe) => (
-        <div key={recipe._id} className="recipe-item">
+        <div key={recipe.id} className="recipe-item">
           <img
             src="https://cdn-icons-png.flaticon.com/512/562/562678.png"
             alt="Recipe"
@@ -42,6 +22,9 @@ const RecipeList = () => {
           <p>
             <strong>Instructions:</strong> {recipe.instructions}
           </p>
+          {typeof onDelete === "function" && (
+            <button className="tab-btn" onClick={() => onDelete(recipe.id)}>Delete</button>
+          )}
         </div>
       ))}
     </div>

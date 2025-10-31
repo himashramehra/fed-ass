@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 
-const RecipeForm = ({ refresh }) => {
+const RecipeForm = ({ onAdd }) => {
   const [form, setForm] = useState({ title: "", ingredients: "", instructions: "" });
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:5000/recipes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    if (typeof onAdd === "function") {
+      onAdd(form);
+    }
     setForm({ title: "", ingredients: "", instructions: "" });
-    refresh();
   };
 
   return (

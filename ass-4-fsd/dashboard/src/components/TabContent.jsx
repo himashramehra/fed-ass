@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -18,31 +18,78 @@ const TabContent = ({ activeTab }) => {
     transition: { duration: 0.4 },
   };
 
+  const [profile, setProfile] = useState({ name: "", email: "" });
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("profile");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setProfile({ name: parsed.name || "", email: parsed.email || "" });
+      }
+    } catch {
+      setProfile({ name: "", email: "" });
+    }
+  }, []);
+
+  const handleProfileChange = (e) => {
+    setProfile((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleProfileSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem("profile", JSON.stringify(profile));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 1500);
+  };
+
   switch (activeTab) {
     case "overview":
       return (
-        <motion.div {...animation} className="text-xl font-semibold">
-          <h2 className="text-2xl font-bold mb-4 text-blue-600">📊 Dashboard Overview</h2>
-          <p className="text-gray-700">Welcome to your personalized dashboard. Check quick stats and updates here.</p>
+        <motion.div {...animation} className="section">
+          <h2 className="heading heading-blue">📊 Dashboard Overview</h2>
+          {profile.name || profile.email ? (
+            <p className="subtext">Welcome {profile.name ? profile.name : "there"}! {profile.email && `( ${profile.email} )`}</p>
+          ) : (
+            <p className="subtext">Welcome to your personalized dashboard. Check quick stats and updates here.</p>
+          )}
         </motion.div>
       );
 
     case "profile":
       return (
-        <motion.div {...animation}>
-          <h2 className="text-2xl font-bold mb-4 text-blue-600">👤 Profile</h2>
-          <form className="space-y-4 max-w-md">
-            <input type="text" placeholder="Full Name" className="w-full border p-2 rounded-md" />
-            <input type="email" placeholder="Email" className="w-full border p-2 rounded-md" />
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+        <motion.div {...animation} className="section">
+          <h2 className="heading heading-blue">👤 Profile</h2>
+          <form className="form" onSubmit={handleProfileSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              className="input"
+              value={profile.name}
+              onChange={handleProfileChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="input"
+              value={profile.email}
+              onChange={handleProfileChange}
+              required
+            />
+            <button className="btn btn-primary" type="submit">Save</button>
+            {saved && <span className="subtext">Saved!</span>}
           </form>
         </motion.div>
       );
 
     case "analytics":
       return (
-        <motion.div {...animation}>
-          <h2 className="text-2xl font-bold mb-4 text-blue-600">📈 Analytics</h2>
+        <motion.div {...animation} className="section">
+          <h2 className="heading heading-blue">📈 Analytics</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -57,17 +104,17 @@ const TabContent = ({ activeTab }) => {
 
     case "settings":
       return (
-        <motion.div {...animation}>
-          <h2 className="text-2xl font-bold mb-4 text-blue-600">⚙️ Settings</h2>
-          <p className="text-gray-700">Manage preferences and privacy controls.</p>
-          <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+        <motion.div {...animation} className="section">
+          <h2 className="heading heading-blue">⚙️ Settings</h2>
+          <p className="subtext">Manage preferences and privacy controls.</p>
+          <button className="btn btn-danger spaced-top">
             Logout
           </button>
         </motion.div>
       );
 
     default:
-      return <div>Select a tab to view content.</div>;
+      return <div className="section">Select a tab to view content.</div>;
   }
 };
 
