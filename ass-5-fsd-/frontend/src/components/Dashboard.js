@@ -75,8 +75,8 @@ const Dashboard = () => {
               alt="User"
             />
             <div>
-              <h3> Gaurav Sunthwal</h3>
-              <p>Email: gaurav@example.com</p>
+              <h3>Himashra Mehra</h3>
+              <p>Email: himashra@example.com</p>
               <p>Joined: October 2025</p>
             </div>
           </div>
@@ -87,3 +87,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+ 
